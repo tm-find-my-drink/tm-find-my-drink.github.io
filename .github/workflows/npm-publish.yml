@@ -35,3 +35,4 @@ jobs:
       uses: sma11black/hexo-action@v1.0.3
       with:
         deploy_key: ${{ secrets.DEPLOY_KEY }}
+
