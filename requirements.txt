@@ -1,2 +1,3 @@
 sphinx
 readthedocs-sphinx-search
+sphinxcontrib-images
