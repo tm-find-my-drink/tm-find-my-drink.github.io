@@ -28,5 +28,3 @@ language = 'zh-TW'
 
 html_theme = 'alabaster'
 html_static_path = ['_static']
-
-html_search_language = 'zh'
