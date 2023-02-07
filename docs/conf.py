@@ -14,7 +14,8 @@ author = 'Trenders'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    'sphinx_search.extension'
+    'sphinx_search.extension',
+    'sphinxcontrib.images',
 ]
 
 templates_path = ['_templates']
