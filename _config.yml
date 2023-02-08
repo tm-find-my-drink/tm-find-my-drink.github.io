@@ -101,8 +101,9 @@ theme: next
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
-deploy:
-  type: ''
+  type: git
+  repo: git@github.com:tm-find-my-drink/tm-find-my-drink.github.io
+  branch: hexo
 
 search:
   path: search.json
