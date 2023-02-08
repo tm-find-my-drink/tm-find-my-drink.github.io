@@ -9,18 +9,33 @@ jobs:
     runs-on: ubuntu-latest
     name: Deploy blog.
     steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        repository: tm-find-my-drink/tm-find-my-drink.github.io
+        path: 'dst'
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    # Caching dependencies to speed up workflows. (GitHub will remove any cache entries that have not been accessed in over 7 days.)
     - name: Cache node modules
       uses: actions/cache@v3
+      id: cache
       with:
         path: node_modules
-        key: ${{runner.OS}}-${{hashFiles('**/package-lock.json')}}
-    - uses: yrpang/github-actions-hexo@v1.3
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+    - name: Install Dependencies
+      run: npm ci
+
+    # Deploy hexo blog website.
+    - name: Deploy
+      id: deploy
+      uses: sma11black/hexo-action@v1.0.3
       with:
-        deploykey: ${{secrets.DEPLOY_KEY}}
-        username: PttCodingMan
-        email: pttcodingman@gmail.com
+        deploy_key: ${{ secrets.DEPLOY_KEY }}
     - name: Push Resume to Github Page
-      working-directory: public
+      working-directory: dst/public
       run: |
         git config --global user.name "${{ secrets.DEVOPS_NAME }}"
         git config --global user.email "${{ secrets.DEVOPS_EMAIL }}"
