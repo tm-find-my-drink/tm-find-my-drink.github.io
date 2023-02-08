@@ -10,28 +10,13 @@ jobs:
     name: Deploy blog.
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        submodules: true # Checkout private submodules(themes or something else).
-    
-    # Caching dependencies to speed up workflows. (GitHub will remove any cache entries that have not been accessed in over 7 days.)
-    - name: Cache node modules
-      uses: actions/cache@v3
-      id: cache
-      with:
-        path: node_modules
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
-    - name: Install Dependencies
-      if: steps.cache.outputs.cache-hit != 'true'
-      run: npm ci
+      uses: actions/checkout@master
 
-    # Deploy hexo blog website.
-    - name: Deploy
-      id: deploy
-      uses: sma11black/hexo-action@v1.0.3
-      with:
-        deploy_key: ${{ secrets.DEPLOY_KEY }}
-#        deploy_key: ${{ secrets.GITHUB_TOKEN }}
+    - name: Build and Deploy
+      uses: renzhaosy/hexo-deploy-action@master
+      env:
+        PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PUBLISH_REPOSITORY: tm-find-my-drink/tm-find-my-drink.github.io # The repository the action should deploy to.
+        BRANCH: hexo  # The branch the action should deploy to.
+        PUBLISH_DIR: ./public # The folder the action should deploy.
 
