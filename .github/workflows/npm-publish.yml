@@ -9,9 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     name: Deploy blog.
     steps:
-    - uses: actions/checkout@v1
     - name: Cache node modules
-      uses: actions/cache@v1
+      uses: actions/cache@v3
       with:
         path: node_modules
         key: ${{runner.OS}}-${{hashFiles('**/package-lock.json')}}
@@ -20,3 +19,13 @@ jobs:
         deploykey: ${{secrets.DEPLOY_KEY}}
         username: PttCodingMan
         email: pttcodingman@gmail.com
+    - name: Push Resume to Github Page
+      working-directory: public
+      run: |
+        git config --global user.name "${{ secrets.DEVOPS_NAME }}"
+        git config --global user.email "${{ secrets.DEVOPS_EMAIL }}"
+        
+        git init .
+        git add -A
+        git commit -m "Updated blog."
+        git -f push
